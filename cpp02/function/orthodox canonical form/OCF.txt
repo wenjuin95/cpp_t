@@ -1,0 +1,58 @@
+1. orthodox canonical form is a set of member function that ensure proper object behavior
+   EXAMPLE => resource management, when handling dynamic memory:
+   - parameter constructor / constructor
+   - copy constructor
+   - copy assignment operator
+   - destructor
+   - move constructor
+
+2. what is copy constructor and copy assignment
+   - copy constructor
+     i. create a new object by coping an existing object
+    ii. used when:
+        - passing object by value
+        - return an object by value
+        - explicitly creating a copy
+    EXAMPLE:
+        class MyClass
+        {
+            public:
+                int *data;
+
+                [ copy constructor ]
+                ====================
+                MyClass(const MyClass &other)
+                {
+                    data = new int(*other.data);   <------- deep copy
+                }
+        };
+   - copy assignment operator 
+     i. copy when the object is already created
+    ii. used when:
+        - only existing object
+        - it have self check before copy
+    EXAMPLE:
+        class MyClass
+        {
+            public:
+                int *data;
+
+                [ copy assignmnet ]
+                ====================
+                MyClass &operator=(const MyClass &other)
+                {
+                    if (this == &other) return *this;      <--------- self-assignment check
+                    delete data;                           <--------- free old memory
+                    data = new int(*other.data);           <--------- deep copy
+                    return *this;
+                }
+        };
+
+    (DEEP COPY)
+     i. assign one object value to another existing object (deep copy)
+    ii. free old memory and then copy new data
+
+2. purpose for orthodox canonical form
+    - ensure proper memory management
+    - prevent memory leaks and dangling pointer
+    - support safe object copying
